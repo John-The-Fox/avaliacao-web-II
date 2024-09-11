@@ -8,8 +8,9 @@ class Post {
     private $score;
     private $comments;
     private $image;
+    //private $conn; // Conexão com o banco de dados
 
-    public function __construct($id, $title, $content, $author, $tags = [], $image = null) {
+    public function __construct($id, $title, $content, $author, $tags = [], $image = null/*, $conn*/ ) {
         $this->id = $id;
         $this->title = $title;
         $this->content = $content;
@@ -18,6 +19,7 @@ class Post {
         $this->score = 0; // Inicialmente a pontuação começa em 0
         $this->comments = [];
         $this->image = $image;
+        //$this->conn = $conn;
     }
 
     // Métodos para exibir os dados do post no frontend
@@ -33,6 +35,11 @@ class Post {
         $this->displayComments();
     }
 
+    /*
+    função temporaria até conexão com banco de dados
+    sim eu sei que um usuario atualmente pode spamar o like
+    */
+
     public function displayScore() {
         echo "<div>";
         echo "<p>Pontuação: {$this->score}</p>";
@@ -41,6 +48,26 @@ class Post {
         echo "</div>";
     }
 
+
+    //para futura conexção com banco de dados, apague a função anteriro quando estiver pronto
+
+    /*public function displayScore($userId, $postId, $conn) {
+        $vote = getUserVote($userId, $postId, $conn);
+        echo "<div>";
+        echo "<p>Pontuação: {$this->score}</p>";
+        if ($vote['vote'] === 'like') {
+            echo "<button style='border: 2px solid green;' onclick='removeVote($postId)'>👍</button>";
+            echo "<button onclick='dislikePost($postId)'>👎</button>";
+        } elseif ($vote['vote'] === 'dislike') {
+            echo "<button onclick='likePost($postId)'>👍</button>";
+            echo "<button style='border: 2px solid red;' onclick='removeVote($postId)'>👎</button>";
+        } else {
+            echo "<button onclick='likePost($postId)'>👍</button>";
+            echo "<button onclick='dislikePost($postId)'>👎</button>";
+        }
+        echo "</div>";
+    }*/
+    
     public function displayComments() {
         echo "<h3>Comentários</h3>";
         foreach ($this->comments as $comment) {
