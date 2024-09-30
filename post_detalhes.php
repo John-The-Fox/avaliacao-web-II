@@ -71,6 +71,19 @@ if (isset($_POST['delete'])) {
 <head>
     <meta charset="UTF-8">
     <title>Detalhes do Post</title>
+    <script>
+        function copiarLink() {
+            // Cria um elemento temporário para armazenar o link
+            var link = window.location.href;
+            var tempInput = document.createElement("input");
+            tempInput.value = link;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            alert("Link copiado para a área de transferência!");
+        }
+    </script>
 </head>
 <body>
     <h1><?php echo $post->getTitulo(); ?></h1>
@@ -86,6 +99,9 @@ if (isset($_POST['delete'])) {
 
     <p><a href="post_detalhes.php?id=<?php echo $postId; ?>&curtir=1">Like</a> | 
     <a href="post_detalhes.php?id=<?php echo $postId; ?>&descurtir=1">Dislike</a></p>
+
+    <h3>Compartilhar</h3>
+    <button onclick="copiarLink()">Copiar Link</button>
 
     <h3>Comentários</h3>
     <form action="post_detalhes.php?id=<?php echo $postId; ?>" method="post">
