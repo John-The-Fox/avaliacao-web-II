@@ -1,6 +1,9 @@
 <?php
+include("php/conexao.php");
 require_once 'php/Post.php';
+require_once 'php/usuario.php';
 require_once 'php/PostManager.php';
+
 
 session_start(); // Inicia a sessão
 
@@ -8,6 +11,8 @@ session_start(); // Inicia a sessão
 if (!isset($_SESSION['postManager'])) {
     $_SESSION['postManager'] = new PostManager();
 }
+
+$usuario = $_SESSION['usuario'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $titulo = $_POST['titulo'];
@@ -30,8 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Adiciona o novo post ao PostManager na sessão
-    $novoPost = new Post(rand(), $titulo, $conteudo, $tipo, "Autor Exemplo"); // ID aleatório para o post
-    $_SESSION['postManager']->adicionarPost($novoPost);
+    //$novoPost = new Post(rand(), $titulo, $conteudo, $tipo, $usuario->getId()); // ID aleatório para o post
+    $_SESSION['postManager']->adicionarPost($titulo, $conteudo, $tipo, $usuario->getId());
 
     // Redireciona de volta para a página principal
     header("Location: index.php");
