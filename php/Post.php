@@ -23,6 +23,22 @@ class Post {
      public function getConteudo() { return $this->conteudo; }
      public function getTipo() { return $this->tipo; }
      public function getAutor() { return $this->autor; }
+     public function getNomeAutor() { 
+        global $mysqli;
+
+        // Prepara a consulta para buscar o nome do autor pelo ID
+        $stmt = $mysqli->prepare("SELECT nome FROM usuarios WHERE id = ?");
+        $stmt->bind_param("i", $this->autor);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        // Verifica se encontrou o autor
+        if ($row = $result->fetch_assoc()) {
+            return $row['nome'];
+        } else {
+            return "Autor desconhecido";
+        }
+    }
      public function getPontuacao() { return $this->pontuacao; }
 
      // Atualiza título ou conteúdo
@@ -65,7 +81,12 @@ class Post {
     }
 
     public function exibirPost() {
-        $conteudoExibido = $this->tipo === 'texto' ? "<p>{$this->conteudo}</p>" : "<img src='{$this->conteudo}' alt='{$this->titulo}' />";
+        $conteudoExibido = $this->tipo === 'texto' ? "<p>{$this->conteudo}</p>" : "<img src='{$this->conteudo}' alt='{$this->titulo}' class='thumbnail' />";
+        return "{$conteudoExibido}<p>Pontuação: {$this->pontuacao}</p>";
+	}
+
+    public function exibirPostDetalhe() {
+        $conteudoExibido = $this->tipo === 'texto' ? "<p>{$this->conteudo}</p>" : "<img src='{$this->conteudo}' alt='{$this->titulo}'/>";
         return "{$conteudoExibido}<p>Pontuação: {$this->pontuacao}</p>";
 	}
 
@@ -136,6 +157,35 @@ class Post {
             $stmt->execute();
         }
         $this->atualizarPontuacoes($mysqli); // Atualiza pontuações do post
+    }
+
+    public function adicionarComentario ($comentario){
+        global $mysqli;
+
+        $postId = $this->id;
+        $usuarioId = $_SESSION['usuario']->getId();
+        $texto = $comentario->getTexto();
+        $stmt = $mysqli->prepare("INSERT INTO comentarios (post_id, usuario_id, texto) VALUES (?, ?, ?)");
+        $stmt->bind_param("iis", $postId, $usuarioId, $texto);
+        $stmt->execute();
+    }
+
+    public function removerComentario($comentarioId){
+        global $mysqli;
+        $stmt = $mysqli->prepare("DELETE FROM comentarios WHERE id = ?");
+        $stmt->bind_param("i", $comentarioId);
+        $stmt->execute();
+    }
+
+    public function getComentarios(){
+        global $mysqli;
+        $stmt = $mysqli->query("SELECT * FROM comentarios WHERE post_id = $this->id ORDER BY id DESC");
+        $comentarios = [];
+
+        while ($row = $stmt->fetch_assoc()) {
+            $comentarios[] = new Comment($row['id'], $row['texto'], $row['usuario_id']);
+        }
+        return $comentarios;   
     }
 }
 ?>

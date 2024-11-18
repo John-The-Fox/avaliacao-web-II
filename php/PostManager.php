@@ -1,4 +1,5 @@
 <?php
+include("conexao.php");
 class PostManager {
     private $posts = [];
 
@@ -10,23 +11,44 @@ class PostManager {
     }
 
     public function removerPost($id) {
-        foreach ($this->posts as $key => $post) {
+        $this->posts = $this->carregarPosts();
+        foreach ($this->posts as $post) {
             if ($post->getId() == $id) {
-                // Verifica se é um post com imagem e remove o arquivo
-                if ($post->getTipo() === 'imagem' && file_exists($post->getConteudo())) {
-                    $filePath = realpath($post->getConteudo());
-                    unlink($filePath);
+                global $mysqli;
+
+                // Prepara a query para deletar o post
+                $stmt = $mysqli->prepare("DELETE FROM posts WHERE id = ?");
+                if (!$stmt) {
+                    echo "Erro na preparação da query: " . $mysqli->error;
+                    return false;
                 }
-                unset($this->posts[$key]); // Remove o post
+
+                // Vincula o parâmetro
+                $stmt->bind_param("i", $id);
+
+                // Executa a query
+                if ($stmt->execute()) {
+                    // Verifica se é um post com imagem e remove o arquivo
+                    if ($post->getTipo() === 'imagem' && file_exists($post->getConteudo())) {
+                        $filePath = realpath($post->getConteudo());
+                        unlink($filePath);
+                    }
+                    echo "Post deletado com sucesso.";
+                    return true;
+                } else {
+                    echo "Erro ao deletar post: " . $stmt->error;
+                    return false;
+                }
+                
             }
         }
+
     }
 
     public function atualizarPost($id, $novoTitulo, $novoConteudo) {
         foreach ($this->posts as $post) {
             if ($post->getId() == $id) {
-                $post->setTitulo($novoTitulo);
-                $post->setConteudo($novoConteudo);
+                $post->atualizar($novoTitulo,$novoConteudo);
             }
         }
     }
@@ -42,7 +64,7 @@ class PostManager {
         return $posts;
     }
 
-    public function verificarVoto(){
+    public function verificarVoto($postId, $usuarioId){
         global $mysqli;
 
     $stmt = $mysqli->prepare("SELECT tipo FROM votos WHERE post_id = ? AND usuario_id = ?");
@@ -58,10 +80,12 @@ class PostManager {
 
 
     public function exibirPosts() {
+        $this->posts = $this->carregarPosts();
         return $this->posts;
     }
 
     public function curtirPost($id) {
+        var_dump($id);
         $this->posts= $this->carregarPosts(); 
         foreach ($this->posts as $post) {
             if ($post->getId() == $id) {

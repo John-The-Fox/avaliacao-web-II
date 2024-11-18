@@ -1,0 +1,104 @@
+/* Estilo para o botão "Voltar para a página inicial" */
+.btn-back {
+    display: inline-block;
+    margin: 10px 0;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-back:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo geral do corpo */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px auto;
+    max-width: 800px;
+    line-height: 1.6;
+}
+
+/* Títulos */
+h1, h3 {
+    color: #333;
+}
+
+/* Estilo para botões */
+button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+/* Estilo para botões Like e Dislike */
+.btn-like,
+.btn-dislike,
+.btn-like-active,
+.btn-dislike-active {
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 3px;
+    background-color: #838383;
+    color: white;
+}
+
+.btn-like-active {
+    background-color: #008812;
+}
+
+.btn-dislike-active {
+    background-color: #8b0101;
+}
+
+/* Estilo para os comentários */
+.comentarios {
+    margin-top: 20px;
+}
+
+.comentario {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.comentario p {
+    margin: 0;
+}
+
+.thumbnail {
+    width: 150px; /* Defina a largura desejada */
+    height: auto; /* Ajusta a altura proporcionalmente */
+    object-fit: cover; /* Garante que a imagem se ajuste sem distorcer */
+    border: 3px solid #000000; /* Opcional: borda para destacar */
+    border-radius: 5px; /* Opcional: bordas arredondadas */
+    margin: 10px; /* Espaçamento entre as imagens */
+}
+
+/* Caixa de texto */
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: vertical;
+}
+
+/* Formulários */
+form {
+    margin-top: 10px;
+}

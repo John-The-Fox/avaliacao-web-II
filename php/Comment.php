@@ -21,6 +21,23 @@ class Comment {
     public function getAutor() {
         return $this->autor;
     }
+
+    public function getAutorNome() {
+        global $mysqli;
+
+        // Prepara a consulta para buscar o nome do autor pelo ID
+        $stmt = $mysqli->prepare("SELECT nome FROM usuarios WHERE id = ?");
+        $stmt->bind_param("i", $this->autor);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        // Verifica se encontrou o autor
+        if ($row = $result->fetch_assoc()) {
+            return $row['nome'];
+        } else {
+            return "Autor desconhecido";
+        }
+    }
 }
 
 ?>

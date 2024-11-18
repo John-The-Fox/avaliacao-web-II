@@ -53,7 +53,21 @@ if (isset($_GET['descurtir']) && $usuario) {
 <head>
     <meta charset="UTF-8">
     <title>Sistema de Posts</title>
-    <link rel="stylesheet" href="css/style.css"> <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="css/style.css"> <!-- CSS -->
+    <script>
+    // Salva a posição do scroll no localStorage
+    window.onbeforeunload = function () {
+        localStorage.setItem('scrollPosition', window.scrollY);
+    };
+
+    // Restaura a posição do scroll após o carregamento
+    window.onload = function () {
+        const scrollPosition = localStorage.getItem('scrollPosition');
+        if (scrollPosition) {
+            window.scrollTo(0, parseInt(scrollPosition));
+        }
+    };
+</script>
 </head>
 <body>
     <header>
@@ -85,7 +99,7 @@ if (isset($_GET['descurtir']) && $usuario) {
                         // Botões Like e Dislike com cores dinâmicas
                         $likeClass = ($voto === 'like') ? 'btn-like-active' : 'btn-like';
                         $dislikeClass = ($voto === 'dislike') ? 'btn-dislike-active' : 'btn-dislike';
-
+                        
                         echo "<a href='index.php?curtir={$post->getId()}' class='$likeClass'>Like</a> ";
                         echo "<a href='index.php?descurtir={$post->getId()}' class='$dislikeClass'>Dislike</a>";
                     }
@@ -99,7 +113,7 @@ if (isset($_GET['descurtir']) && $usuario) {
         </div>
         <?php
             if ($usuario) {
-                echo "<a href='cadastro_post.php'>Cadastrar Novo Post</a>";
+                echo "<br><a href='cadastro_post.php'>Cadastrar Novo Post</a>";
             }
         ?>
     </main>
