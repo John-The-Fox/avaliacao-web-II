@@ -113,7 +113,7 @@ if (isset($_GET['descurtir']) && $usuario) {
         </div>
         <?php
             if ($usuario) {
-                echo "<br><a href='cadastro_post.php'>Cadastrar Novo Post</a>";
+                echo "<br><a href='cadastro_post.php'class='btn-new'>Cadastrar Novo Post</a>";
             }
         ?>
     </main>

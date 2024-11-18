@@ -2,12 +2,12 @@
 .btn-back {
     display: inline-block;
     margin: 10px 0;
-    padding: 10px 15px;
+    padding: 5px 10px;
     background-color: #007bff;
     color: white;
     text-decoration: none;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 3px;
+    font-size: 12px;
     transition: background-color 0.3s ease;
 }
 
@@ -53,14 +53,44 @@ button:hover {
     border-radius: 3px;
     background-color: #838383;
     color: white;
+    transition: background-color 0.3s ease;
 }
 
 .btn-like-active {
     background-color: #008812;
 }
+.btn-like:hover,
+.btn-like-active:hover {
+    background-color: #41854A;
+}
 
 .btn-dislike-active {
     background-color: #8b0101;
+}
+
+.btn-dislike:hover,
+.btn-dislike-active:hover {
+    background-color: #874242;
+}
+
+.btn-delete {
+    background-color: #440000;
+}
+
+.btn-new {
+    display: inline-block;
+    margin: 10px 0;
+    padding: 10px 15px;
+    background-color: #069901;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-new:hover {
+    background-color: #0b5e00;
 }
 
 /* Estilo para os comentários */

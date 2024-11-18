@@ -132,7 +132,7 @@ if (isset($_POST['delete'])) {
 
         <?php if ($usuario && $usuario->getId() == $post->getAutor()): ?>
             <form action="post_detalhes.php?id=<?php echo $postId; ?>" method="post">
-                <button type="submit" name="delete">Excluir Post</button>
+                <button type="submit" name="delete" class='btn-delete'>Excluir Post</button>
                 <a href="editar_post.php?id=<?php echo $postId; ?>">Editar Post</a>
             </form>
         <?php endif; ?>
@@ -166,8 +166,8 @@ if (isset($_POST['delete'])) {
                     <p><?php echo $comentario->getTexto(); ?> - <strong><?php echo $comentario->getAutorNome(); ?></strong></p>
                     <form action="post_detalhes.php?id=<?php echo $postId; ?>" method="post" style="display:inline;">
                         <input type="hidden" name="commentId" value="<?php echo $comentario->getId(); ?>">
-                        <?php if ($usuario->getId() == $post->getAutor() || $usuario->getId() == $comentario->getAutor()): ?>
-                        <button type="submit" name="deleteComment">Excluir Comentário</button>
+                        <?php if ($usuario && ($usuario->getId() == $post->getAutor() || $usuario->getId() == $comentario->getAutor())): ?>
+                            <button type="submit" name="deleteComment" class='btn-delete'>Excluir Comentário</button>
                         <?php endif; ?>
                     </form>
                 </div>
